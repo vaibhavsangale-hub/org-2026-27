@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Career247 · Delivery & Product Org Chart · FY 26-27</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Segoe UI', Calibri, Arial, sans-serif;
+    background: #F1F1F1;
+    color: #2F2F2F;
+    padding: 24px;
+    min-width: 1400px;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    background: #0E2F56;
+    color: white;
+    border-radius: 12px;
+    padding: 24px 32px;
+    margin-bottom: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .header-brand { font-size: 13px; color: #FFDC53; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 4px; }
+  .header h1 { font-size: 24px; font-weight: 700; }
+  .header-meta { font-size: 13px; color: #aaa; margin-top: 4px; }
+  .header-stats { display: flex; gap: 28px; }
+  .stat-box { text-align: center; }
+  .stat-box .n { font-size: 32px; font-weight: 700; color: #FFDC53; }
+  .stat-box .l { font-size: 11px; color: #ccc; text-transform: uppercase; letter-spacing: 0.5px; }
+
+  /* ── LEGEND ── */
+  .legend {
+    display: flex; gap: 20px; flex-wrap: wrap;
+    background: white; border-radius: 8px; padding: 12px 20px;
+    margin-bottom: 24px; border: 1px solid #e0e0e0; align-items: center;
+  }
+  .legend-title { font-size: 11px; font-weight: 700; text-transform: uppercase; color: #888; margin-right: 8px; }
+  .legend-item { display: flex; align-items: center; gap: 8px; font-size: 12px; }
+  .legend-dot { width: 14px; height: 14px; border-radius: 4px; }
+  .dot-active { background: #0072FB; }
+  .dot-hire { background: #fff; border: 2px dashed #F59E0B; }
+  .dot-placement { background: #fff; border: 2px solid #0072FB; outline: 2px solid #FFDC53; outline-offset: 1px; }
+  .dot-exiting { background: #FEE2E2; border: 2px solid #EF4444; }
+  .dot-cost { background: #D1FAE5; border: 2px solid #10B981; }
+  .dot-manager { background: #0E2F56; }
+
+  /* ── AASHAY NODE ── */
+  .top-node-wrap { display: flex; justify-content: center; margin-bottom: 0; }
+  .top-node {
+    background: #0072FB;
+    color: white;
+    border-radius: 12px;
+    padding: 18px 32px;
+    text-align: center;
+    min-width: 260px;
+    position: relative;
+    box-shadow: 0 4px 16px rgba(0,114,251,0.35);
+  }
+  .top-node .label { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: #FFDC53; font-weight: 600; margin-bottom: 4px; }
+  .top-node .name { font-size: 20px; font-weight: 700; }
+  .top-node .role { font-size: 13px; color: rgba(255,255,255,0.8); margin-top: 4px; }
+
+  /* ── CONNECTOR ── */
+  .connector-wrap { display: flex; justify-content: center; }
+  .connector-line { width: 2px; height: 28px; background: #0072FB; }
+
+  /* ── TEAMS ROW ── */
+  .teams-row {
+    display: flex;
+    gap: 14px;
+    justify-content: center;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding-bottom: 8px;
+  }
+
+  .team-col { display: flex; flex-direction: column; align-items: center; min-width: 170px; max-width: 185px; flex: 1; }
+
+  /* ── TEAM HEADER ── */
+  .team-header {
+    border-radius: 10px 10px 0 0;
+    padding: 10px 14px;
+    text-align: center;
+    width: 100%;
+    position: relative;
+  }
+  .team-header .team-label { font-size: 9px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; opacity: 0.8; margin-bottom: 2px; }
+  .team-header .team-name { font-size: 13px; font-weight: 700; }
+  .team-header .team-hc { font-size: 10px; opacity: 0.75; margin-top: 2px; }
+
+  /* team colours */
+  .t-academic  { background: #0E2F56; color: white; }
+  .t-content   { background: #0072FB; color: white; }
+  .t-delivery  { background: #1D4ED8; color: white; }
+  .t-support   { background: #6D28D9; color: white; }
+  .t-product   { background: #0891B2; color: white; }
+  .t-b2i       { background: #059669; color: white; }
+  .t-placement { background: #FFDC53; color: #0E2F56; }
+  .t-corporate { background: #7C3AED; color: white; }
+  .t-others    { background: #6B7280; color: white; }
+
+  /* ── MEMBER CARDS ── */
+  .team-body {
+    background: white;
+    border: 1px solid #e0e0e0;
+    border-top: none;
+    border-radius: 0 0 10px 10px;
+    width: 100%;
+    overflow: hidden;
+    flex: 1;
+  }
+
+  .member-card {
+    padding: 8px 12px;
+    border-bottom: 1px solid #f0f0f0;
+    position: relative;
+  }
+  .member-card:last-child { border-bottom: none; }
+
+  .member-name { font-size: 12px; font-weight: 600; color: #0E2F56; line-height: 1.3; }
+  .member-role { font-size: 10px; color: #666; line-height: 1.3; margin-top: 1px; }
+
+  .badge {
+    display: inline-block;
+    font-size: 8px; font-weight: 700;
+    border-radius: 3px;
+    padding: 1px 5px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 3px;
+  }
+  .badge-manager   { background: #0E2F56; color: white; }
+  .badge-placement { background: #FFDC53; color: #0E2F56; }
+  .badge-exiting   { background: #FEE2E2; color: #DC2626; border: 1px solid #EF4444; }
+  .badge-pending   { background: #FEF3C7; color: #92400E; border: 1px solid #F59E0B; }
+
+  /* TO HIRE cards */
+  .card-hire {
+    background: #FFFBEB;
+    border-left: 3px solid #F59E0B;
+  }
+  .card-hire .member-name { color: #92400E; }
+  .badge-hire { background: #F59E0B; color: white; }
+
+  /* Placement focus highlight */
+  .card-placement-focus {
+    border-left: 3px solid #FFDC53;
+    background: #FFFEF0;
+  }
+
+  /* ── COST NOTE ── */
+  .cost-note {
+    background: #D1FAE5;
+    border: 1px solid #10B981;
+    border-radius: 8px;
+    padding: 10px 14px;
+    margin-top: 10px;
+    width: 100%;
+    font-size: 10px;
+    color: #065F46;
+    font-weight: 600;
+    text-align: center;
+    line-height: 1.4;
+  }
+  .cost-note .cost-icon { font-size: 14px; display: block; margin-bottom: 2px; }
+
+  /* ── PLACEMENT NOTE ── */
+  .placement-note {
+    background: #FFFDE7;
+    border: 1px solid #FFDC53;
+    border-radius: 8px;
+    padding: 10px 14px;
+    margin-top: 10px;
+    width: 100%;
+    font-size: 10px;
+    color: #78350F;
+    font-weight: 600;
+    text-align: center;
+    line-height: 1.4;
+  }
+
+  /* ── BOTTOM NOTES ── */
+  .notes-row {
+    display: flex; gap: 16px; margin-top: 28px; flex-wrap: wrap;
+  }
+  .note-box {
+    flex: 1; min-width: 300px;
+    background: white; border-radius: 10px;
+    padding: 16px 20px; border: 1px solid #e0e0e0;
+  }
+  .note-box h3 { font-size: 13px; font-weight: 700; color: #0072FB; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .note-box ul { list-style: none; }
+  .note-box ul li { font-size: 12px; color: #444; padding: 5px 0; border-bottom: 1px solid #f5f5f5; display: flex; align-items: flex-start; gap: 8px; }
+  .note-box ul li:last-child { border-bottom: none; }
+  .note-icon { font-size: 13px; flex-shrink: 0; }
+
+  .footer {
+    text-align: center;
+    margin-top: 24px;
+    font-size: 11px;
+    color: #aaa;
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div>
+    <div class="header-brand">Career247 · An Adda Education Company</div>
+    <h1>Delivery & Product Team · Org Chart</h1>
+    <div class="header-meta">FY 26-27 · Internal Document · Head: Aashay Mishra</div>
+  </div>
+  <div class="header-stats">
+    <div class="stat-box"><div class="n">67</div><div class="l">Total HC</div></div>
+    <div class="stat-box"><div class="n">6</div><div class="l">To Hire</div></div>
+    <div class="stat-box"><div class="n">9</div><div class="l">Sub-Teams</div></div>
+    <div class="stat-box"><div class="n">₹509L</div><div class="l">Annual Payroll</div></div>
+  </div>
+</div>
+
+<!-- LEGEND -->
+<div class="legend">
+  <span class="legend-title">Legend</span>
+  <div class="legend-item"><div class="legend-dot dot-manager"></div> Team Manager</div>
+  <div class="legend-item"><div class="legend-dot dot-active"></div> Active Team Member</div>
+  <div class="legend-item" style="background:#FFFBEB;padding:2px 8px;border-radius:4px;border:1.5px dashed #F59E0B;">🔶 TO HIRE — Position Open</div>
+  <div class="legend-item"><span style="background:#FEE2E2;color:#DC2626;font-size:10px;font-weight:700;padding:2px 7px;border-radius:3px;border:1px solid #EF4444;">EXITING</span> Serving notice</div>
+  <div class="legend-item"><span style="background:#FEF3C7;color:#92400E;font-size:10px;font-weight:700;padding:2px 7px;border-radius:3px;">PENDING</span> Exit / decision pending</div>
+</div>
+
+<!-- TOP NODE -->
+<div class="top-node-wrap">
+  <div class="top-node">
+    <div class="label">Head of Delivery & Product</div>
+    <div class="name">Aashay Mishra</div>
+    <div class="role">Overall P&L · Delivery · Product · Placements</div>
+  </div>
+</div>
+<div class="connector-wrap"><div class="connector-line"></div></div>
+
+<!-- TEAMS -->
+<div class="teams-row">
+
+  <!-- ── ACADEMIC TEAM ── -->
+  <div class="team-col">
+    <div class="team-header t-academic">
+      <div class="team-label">Academic Team</div>
+      <div class="team-name">Faculty & Content</div>
+      <div class="team-hc">12 HC · ₹112.5L/yr</div>
+    </div>
+    <div class="team-body">
+      <div class="member-card">
+        <div class="member-name">Gaurav Pandey</div>
+        <div class="member-role">Faculty – DSA / FSD</div>
+        <span class="badge badge-manager">Lead Faculty</span>
+      </div>
+      <div class="member-card">
+        <div class="member-name">Ganesh NP</div>
+        <div class="member-role">Faculty – Data Science</div>
+      </div>
+      <div class="member-card" style="border-left:3px solid #EF4444;background:#FFF5F5;">
+        <div class="member-name">Shaghil Jamal</div>
+        <div class="member-role">Faculty – Data Analytics</div>
+        <span class="badge badge-exiting">Exiting — April Last</span>
+      </div>
+      <div class="member-card">
+        <div class="member-name">Silki Jain</div>
+        <div class="member-role">Content & Assessment Creator</div>
+      </div>
+      <div class="member-card">
+        <div class="member-name">Bhupesh Roushan</div>
+        <div class="member-role">Content & Assessment Creator</div>
+      </div>
+      <div class="member-card">
+        <div class="member-name">Devank Singh</div>
+        <div class="member-role">Content & Assessment Creator</div>
+      </div>
+      <div class="member-card">
+        <div class="member-name">Rahul GJ</div>
+        <div class="member-role">Content & Assessment Creator</div>
+      </div>
+      <div class="member-card">
+        <div class="member-name">Sunil</div>
+        <div class="member-role">Content & Assessment Creator</div>
+      </div>
+      <div class="member-card">
+        <div class="member-name">Priyam</div>
+        <div class="member-role">Content & Assessment Creator</div>
+      </div>
+      <!-- TO HIRE -->
+      <div class="member-card card-hire">
+        <div class="member-name">DA Faculty (TBD)</div>
+        <div class="member-role">Faculty – Data Analytics</div>
+        <span class="badge badge-hire">🔶 To Hire</span>
+      </div>
+      <div class="member-card card-hire">
+        <div class="member-name">AIML Faculty</div>
+        <div class="member-role">Faculty – AI / ML</div>
+        <span class="badge badge-hire">🔶 To Hire</span>
+      </div>
+      <div class="member-card card-hire">
+        <div class="member-name">Soft Skills Faculty</div>
+        <div class="member-role">Faculty – Soft Skills</div>
+        <span class="badge badge-hire">🔶 To Hire</span>
+      </div>
+    </div>
+    <div class="cost-note">
+      <span class="cost-icon">💡</span>
+      In-house faculty replaces ₹217L/yr external billing · DA + AIML hires = ₹80L+ annual saving
+    </div>
+  </div>
+
+  <!-- ── PRODUCT & CONTENT TEAM ── -->
+  <div class="team-col">
+    <div class="team-header t-content">
+      <div class="team-label">Product & Content</div>
+      <div class="team-name">Instructional Design</div>
+      <div class="team-hc">9 HC · ₹81.3L/yr</div>
+    </div>
+    <div class="team-body">
+      <div class="member-card">
+        <div class="member-name">Zenobia</div>
+        <div class="member-role">Assoc. Director – Content</div>
+        <span class="badge badge-manager">Manager</span>
+      </div>
+      <div class="member-card">
+        <div class="member-name">Kevin</div>
+        <div class="member-role">Instructional Designer</div>
+      </div>
+      <div class="member-card">
+        <div class="member-name">Uma S</div>
+        <div class="member-role">Instructional Designer</div>
+      </div>
+      <div class="member-card">
+        <div class="member-name">Sandesh</div>
+        <div class="member-role">Instructional Designer</div>
+      </div>
+      <div class="member-card">
+        <div class="member-name">Gopika</div>
+        <div class="member-role">Instructional Designer</div>
+      </div>
+      <div class="member-card">
+        <div class="member-name">Roshan Raj</div>
+        <div class="member-role">Instructional Designer</div>
+      </div>
+      <div class="member-card">
+        <div class="member-name">Akasthi</div>
+        <div class="member-role">Video Editor / Graphic Designer</div>
+      </div>
+      <div class="member-card">
+        <div class="member-name">GuruPrasad</div>
+        <div class="member-role">Video Editor</div>
+      </div>
+      <div class="member-card">
+        <div class="member-name">Siva</div>
+        <div class="member-role">LMS Coordinator</div>
+      </div>
+    </div>
+    <div class="cost-note">
+      <span class="cost-icon">📦</span>
+      Content library built in-house · design team refreshes each cycle · ₹20L/yr CAPEX → ₹0
+    </div>
+  </div>
+
+  <!-- ── DELIVERY TEAM ── -->
+  <div class="team-col">
+    <div class="team-header t-delivery">
+      <div class="team-label">Delivery Team</div>
+      <div class="team-name">Program Ops</div>
+      <div class="team-hc">6 HC · ₹42.0L/yr</div>
+    </div>
+    <div class="team-body">
+      <div class="member-card">
+        <div class="member-name">Nivedha M</div>
+        <div class="member-role">Delivery Manager</div>
+        <span class="badge badge-manager">Manager</span>
+      </div>
+      <div class="member-card">
+        <div class="member-name">Dilip Kumar</div>
+        <div class="member-role">Assoc. Manager – Delivery</div>
+      </div>
+      <div class="member-card">
+        <div class="member-name">Ritesh Sanyal</div>
+        <div class="member-role">Associate – Delivery</div>
+      </div>
+      <div class="member-card">
+        <div class="member-name">Jay Kole</div>
+        <div class="member-role">Associate – Delivery</div>
+      </div>
+      <div class="member-card">
+        <div class="member-name">Jilu John</div>
+        <div class="member-role">Associate – Delivery</div>
+      </div>
+      <div class="member-card card-hire">
+        <div class="member-name">Delivery Associate</div>
+        <div class="member-role">Associate – Delivery</div>
+        <span class="badge badge-hire">🔶 To Hire</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SUPPORT TEAM ── -->
+  <div class="team-col">
+    <div class="team-header t-support">
+      <div class="team-label">Support Team</div>
+      <div class="team-name">Student Success</div>
+      <div class="team-hc">11 HC · ₹66.8L/yr</div>
+    </div>
+    <div class="team-body">
+      <div class="member-card">
+        <div class="member-name">Selvi</div>
+        <div class="member-role">Student Success Manager</div>
+        <span class="badge badge-manager">Manager</span>
+      </div>
+      <div class="member-card">
+        <div class="member-name">Shivani Singh</div>
+        <div class="member-role">Student Success Associate</div>
+      </div>
+      <div class="member-card">
+        <div class="member-name">Siddhartha Nandi</div>
+        <div class="member-role">Student Success Associate</div>
+      </div>
+      <div class="member-card">
+        <div class="member-name">Ch Sai Pavan</div>
+        <div class="member-role">Student Success Associate</div>
+      </div>
+      <div class="member-card">
+        <div class="member-name">Sanjana Shanbhag</div>
+        <div class="member-role">Student Success Associate</div>
+      </div>
+      <div class="member-card">
+        <div class="member-name">Sharukh</div>
+        <div class="member-role">Student Success Associate</div>
+      </div>
+      <div class="member-card">
+        <div class="member-name">Jitendra</div>
+        <div class="member-role">Student Success Associate</div>
+      </div>
+      <div class="member-card">
+        <div class="member-name">Ravi Kumar</div>
+        <div class="member-role">Student Success Associate</div>
+      </div>
+      <div class="member-card">
+        <div class="member-name">MD Alam</div>
+        <div class="member-role">Retention Associate</div>
+      </div>
+      <div class="member-card">
+        <div class="member-name">Deepanshu Kumar</div>
+        <div class="member-role">Student Success Associate</div>
+      </div>
+      <div class="member-card card-hire">
+        <div class="member-name">SSM Associate</div>
+        <div class="member-role">Student Success Associate</div>
+        <span class="badge badge-hire">🔶 To Hire</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── PLACEMENT & AUDIT TEAM ── -->
+  <div class="team-col">
+    <div class="team-header t-placement">
+      <div class="team-label">⭐ Placement & Audit</div>
+      <div class="team-name">Placements · Ops</div>
+      <div class="team-hc">9 HC · ₹71.2L/yr</div>
+    </div>
+    <div class="team-body">
+      <div class="member-card">
+        <div class="member-name">Niharika Karn</div>
+        <div class="member-role">Program Manager</div>
+        <span class="badge badge-manager">Manager</span>
+      </div>
+      <div class="member-card card-placement-focus">
+        <div class="member-name">Mohan Das</div>
+        <div class="member-role">Placement Manager</div>
+      </div>
+      <div class="member-card card-placement-focus">
+        <div class="member-name">Sejal</div>
+        <div class="member-role">Placement Associate</div>
+      </div>
+      <div class="member-card card-placement-focus">
+        <div class="member-name">Raj Kamal</div>
+        <div class="member-role">Placement Associate</div>
+      </div>
+      <div class="member-card">
+        <div class="member-name">Silky Somya</div>
+        <div class="member-role">Marketing Ops Associate</div>
+        <span class="badge badge-placement">Placement Support</span>
+      </div>
+      <div class="member-card">
+        <div class="member-name">Aditya Roy</div>
+        <div class="member-role">Marketing Ops Associate</div>
+      </div>
+      <div class="member-card">
+        <div class="member-name">Aditya Deshmukh</div>
+        <div class="member-role">Class & Lecture Auditor</div>
+      </div>
+      <div class="member-card">
+        <div class="member-name">Anuvansh Khatri</div>
+        <div class="member-role">Class & Lecture Auditor</div>
+      </div>
+      <div class="member-card card-hire">
+        <div class="member-name">Placement Associate</div>
+        <div class="member-role">Placement Associate</div>
+        <span class="badge badge-hire">🔶 To Hire</span>
+      </div>
+    </div>
+    <div class="placement-note">
+      ⭐ Key Focus Area — Placements is a critical outcome metric. 5 of 9 members directly drive learner employment.
+    </div>
+  </div>
+
+  <!-- ── B2I DELIVERY TEAM ── -->
+  <div class="team-col">
+    <div class="team-header t-b2i">
+      <div class="team-label">B2I Delivery</div>
+      <div class="team-name">B2I Programs</div>
+      <div class="team-hc">5 HC · ₹43.8L/yr</div>
+    </div>
+    <div class="team-body">
+      <div class="member-card">
+        <div class="member-name">Bhashi Singh</div>
+        <div class="member-role">B2I Delivery Manager</div>
+        <span class="badge badge-manager">Manager</span>
+      </div>
+      <div class="member-card">
+        <div class="member-name">Aswin</div>
+        <div class="member-role">Aptitude Trainer – B2I</div>
+      </div>
+      <div class="member-card">
+        <div class="member-name">Manoj S</div>
+        <div class="member-role">Associate – B2I Delivery</div>
+      </div>
+      <div class="member-card">
+        <div class="member-name">Adya Anand</div>
+        <div class="member-role">Associate – B2I Delivery</div>
+      </div>
+      <div class="member-card">
+        <div class="member-name">Nitesh</div>
+        <div class="member-role">Associate – B2I Delivery</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── PRODUCT & DESIGN TEAM ── -->
+  <div class="team-col">
+    <div class="team-header t-product">
+      <div class="team-label">Product & Design</div>
+      <div class="team-name">Tech · UX · Design</div>
+      <div class="team-hc">9 HC · ₹68.4L/yr</div>
+    </div>
+    <div class="team-body">
+      <div class="member-card">
+        <div class="member-name">Mayur Jain</div>
+        <div class="member-role">Manager – Product</div>
+        <span class="badge badge-manager">Manager</span>
+      </div>
+      <div class="member-card">
+        <div class="member-name">Faizan</div>
+        <div class="member-role">Product Marketing Designer</div>
+      </div>
+      <div class="member-card">
+        <div class="member-name">Siddharth Tewary</div>
+        <div class="member-role">UI UX – SHE Website</div>
+      </div>
+      <div class="member-card">
+        <div class="member-name">Mohit</div>
+        <div class="member-role">UI UX – OD / BFSI</div>
+      </div>
+      <div class="member-card">
+        <div class="member-name">Ayush</div>
+        <div class="member-role">Video Editor (new Apr)</div>
+      </div>
+      <div class="member-card">
+        <div class="member-name">Dinesh</div>
+        <div class="member-role">Video Editor (new Apr)</div>
+      </div>
+      <div class="member-card" style="border-left:3px solid #F59E0B;background:#FFFBEB;">
+        <div class="member-name">Akshit</div>
+        <div class="member-role">UI UX – PrepInsta / PI Site</div>
+        <span class="badge badge-pending">Pending Exit</span>
+      </div>
+      <div class="member-card" style="border-left:3px solid #F59E0B;background:#FFFBEB;">
+        <div class="member-name">Aryan</div>
+        <div class="member-role">UI UX – Optimus</div>
+        <span class="badge badge-pending">Exit Pending</span>
+      </div>
+      <div class="member-card" style="border-left:3px solid #F59E0B;background:#FFFBEB;">
+        <div class="member-name">Khushi</div>
+        <div class="member-role">UI UX – SHE Website</div>
+        <span class="badge badge-pending">Decision Pending</span>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ── CORPORATE RELATIONS TEAM ── -->
+  <div class="team-col">
+    <div class="team-header t-corporate">
+      <div class="team-label">Corporate Relations</div>
+      <div class="team-name">Career Service Team</div>
+      <div class="team-hc">3 HC</div>
+    </div>
+    <div class="team-body">
+      <div class="member-card">
+        <div class="member-name">Nancy Agrawal</div>
+        <div class="member-role">Manager</div>
+        <span class="badge badge-manager">Manager</span>
+      </div>
+      <div class="member-card">
+        <div class="member-name">Shrey Parik</div>
+        <div class="member-role">Corporate Relations Associate</div>
+      </div>
+      <div class="member-card">
+        <div class="member-name">Abhiraj Sharma</div>
+        <div class="member-role">Corporate Relations Associate</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── OTHERS ── -->
+  <div class="team-col">
+    <div class="team-header t-others">
+      <div class="team-label">Others</div>
+      <div class="team-name">Cross-function</div>
+      <div class="team-hc">3 HC · ₹23.3L/yr</div>
+    </div>
+    <div class="team-body">
+      <div class="member-card">
+        <div class="member-name">Shivangi Chandra</div>
+        <div class="member-role">Empanelment HR</div>
+        <span class="badge badge-placement">Placement Support</span>
+      </div>
+      <div class="member-card">
+        <div class="member-name">Sheeza Bakshi</div>
+        <div class="member-role">Empanelment HR</div>
+        <span class="badge badge-placement">Placement Support</span>
+      </div>
+      <div class="member-card">
+        <div class="member-name">Vaibhav Sangale</div>
+        <div class="member-role">Business Analyst</div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end teams-row -->
+
+<!-- BOTTOM NOTES -->
+<div class="notes-row">
+  <div class="note-box">
+    <h3>🔶 Open Positions (6 To Hire)</h3>
+    <ul>
+      <li><span class="note-icon">👨‍🏫</span><div><strong>DA Faculty (Replacement)</strong> — Replaces Shaghil Jamal (exiting April). Budget ₹19L CTC. Start May 2026.</div></li>
+      <li><span class="note-icon">🤖</span><div><strong>AIML Faculty</strong> — New role. In-house AI/ML delivery. Reduces highest-spend external faculty line. ₹20L CTC budget.</div></li>
+      <li><span class="note-icon">🎙️</span><div><strong>Soft Skills Faculty</strong> — New role. Currently 100% external. In-house hire saves ₹12L/yr. ₹12L CTC budget.</div></li>
+      <li><span class="note-icon">📦</span><div><strong>Delivery Associate</strong> — Delivery Team scale-up for new batch volume.</div></li>
+      <li><span class="note-icon">🎓</span><div><strong>Placement Associate</strong> — Placement & Audit Team. Direct learner employment outcomes.</div></li>
+      <li><span class="note-icon">💬</span><div><strong>SSM Associate</strong> — Support Team. Learner success & retention.</div></li>
+    </ul>
+  </div>
+  <div class="note-box">
+    <h3>⭐ Placement — Key Focus Across Teams</h3>
+    <ul>
+      <li><span class="note-icon">🏆</span><div><strong>Placement & Audit Team</strong> — 5 of 9 members directly drive employer connects and learner placements. Mohan Das, Sejal, Raj Kamal are pure placement roles.</div></li>
+      <li><span class="note-icon">🤝</span><div><strong>Empanelment HR (Others)</strong> — Shivangi & Sheeza manage employer partnerships and hiring empanelment.</div></li>
+      <li><span class="note-icon">🏢</span><div><strong>B2I Delivery Team</strong> — Manoj, Adya, Nitesh drive B2I outcomes which directly feed placement rates.</div></li>
+      <li><span class="note-icon">📊</span><div><strong>Program Manager (Niharika)</strong> — Oversees program delivery quality, directly tied to outcome metrics.</div></li>
+    </ul>
+  </div>
+  <div class="note-box">
+    <h3>💡 In-House Faculty = Cost Optimisation</h3>
+    <ul>
+      <li><span class="note-icon">📉</span><div>External faculty currently costs <strong>₹217.5L/year</strong> — 22% of total delivery cost</div></li>
+      <li><span class="note-icon">👥</span><div>Hiring DA + AIML + Soft Skills in-house (~₹40L total salary) replaces ₹120L+ in external billing</div></li>
+      <li><span class="note-icon">🔁</span><div>In-house faculty also builds content library — <strong>₹0 recurring CAPEX</strong> after Year 1</div></li>
+      <li><span class="note-icon">💰</span><div>Net annual saving: <strong>₹80L+</strong> on this lever alone. Internal cost/learner: ₹1,497 vs ₹2,894 external (48% cheaper)</div></li>
+    </ul>
+  </div>
+</div>
+
+<div class="footer">
+  Career247 · Delivery & Product Org Chart · FY 2026-27 · Internal — Confidential · Head: Aashay Mishra
+</div>
+
+</body>
+</html>
